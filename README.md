@@ -8,3 +8,4 @@ This data is displayed in my portfolio/ online CV on [vladuma.github.io](https:/
 * Provide API to write to database
 * Provide API to read from the database
 * Provide API to delete/update the database from the portfolio-admin client
+* Provide API to login to the portfolio-admin client

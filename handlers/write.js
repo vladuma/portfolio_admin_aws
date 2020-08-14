@@ -1,5 +1,7 @@
 'use strict';
-const assignId = require('../utils/assign-id');
+const { uuid } = require('uuidv4');
+const createResponse = require('../utils/createResponse');
+
 const AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 
@@ -33,10 +35,8 @@ function createItem(tableName, itemData){
     return createResponse(400, `Error writting to ${tableName}`, err);
   }
 };
+function assignId(data) {
+  data.id = uuid();
 
-function createResponse(statusCode, message, data) {
-  return {
-    statusCode: statusCode,
-    body: JSON.stringify({message: message, data: data})
-  };
+  return data;
 }

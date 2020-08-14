@@ -1,4 +1,6 @@
 'use strict';
+const createResponse = require('../utils/createResponse');
+
 const AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 
@@ -26,10 +28,3 @@ function updateItem(tableName, itemData){
     return createResponse(400, `Error updating ${tableName}`, err);
   }
 };
-
-function createResponse(statusCode, message, data) {
-  return {
-    statusCode: statusCode,
-    body: JSON.stringify({message: message, data: data})
-  };
-}

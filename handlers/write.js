@@ -12,8 +12,8 @@ module.exports.post = async event => {
 
     return tableResponse;
   } catch (err) {
-    console.log(`Error before writting to ${dbName}`, err);
-    return createResponse(500, `Error before writting to ${dbName}`, err)
+    console.error(`Error before writting to table`, err);
+    return createResponse(500, `Error before writting to table`, err)
   }
 };
 
@@ -29,7 +29,7 @@ function createItem(tableName, itemData){
       return createResponse(200, `Written successfully to ${tableName}`, params);
     });
   } catch (err) {
-    console.log(`Error writting to ${tableName}`, err);
+    console.error(`Error writting to ${tableName}`, err);
     return createResponse(400, `Error writting to ${tableName}`, err);
   }
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports.del = async event => {
-  const {dbName} = JSON.stringify(event || event.body);
+  const {dbName} = JSON.parse(JSON.stringify(event || event.body));
 
   return {
     statusCode: 200,

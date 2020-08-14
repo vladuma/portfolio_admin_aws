@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports.put = async event => {
-  const {dbName, data} = JSON.stringify(event || event.body);
+  const {dbName, data} = JSON.parse(JSON.stringify(event || event.body));
 
   return {
     statusCode: 200,

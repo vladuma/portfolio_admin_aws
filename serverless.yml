@@ -17,6 +17,12 @@ plugins:
   - serverless-dynamodb-local
   - serverless-offline
 
+custom:
+  dynamodb:
+    stages:
+      - dev
+      - prod
+
 functions:
   read:
     handler: handlers/read.get

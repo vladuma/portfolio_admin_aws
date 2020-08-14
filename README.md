@@ -10,7 +10,7 @@ This data is displayed in my portfolio/ online CV on [vladuma.github.io](https:/
 * Provide API to login to the portfolio-admin client
 
 # Write to table
-Send POST request to /{stage}/write, with the following body:
+Send POST request to /{stage}/write, with the following body:\
 {
     "tableName": "valid table name",
     "data": "stringified and valid data"
@@ -18,3 +18,11 @@ Send POST request to /{stage}/write, with the following body:
 
 # Read from table
 Send GET request to /{stage}/read, with a query parameter "tableName" containing a valid database name.
+
+# Update table
+Send PUT request to /{stage}/update, with the following body:\
+{
+    "tableName": "valid table name",
+    "data": "stringified and valid data"
+}.\
+The data must have an existing id.

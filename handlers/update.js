@@ -1,17 +1,35 @@
 'use strict';
+const AWS = require('aws-sdk');
+AWS.config.update({region: 'us-east-1'});
+
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 module.exports.put = async event => {
-  const {dbName, data} = JSON.parse(JSON.stringify(event || event.body));
+  const {tableName, data} = JSON.parse(event.body);
+  const tableResponse = await updateItem(tableName, JSON.parse(data));
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: `Updated successfully: ${dbName}`,
-        input: event,
-      },
-      null,
-      2
-    ),
-  };
+  return tableResponse;
 };
+
+function updateItem(tableName, itemData){
+  var params = {
+    TableName: tableName,
+    Item: itemData
+  }
+
+  try {
+    return docClient.put(params).promise().then(() => {
+      return createResponse(200, `Updated successfully ${tableName}`, params);
+    });
+  } catch (err) {
+    console.error(`Error updating ${tableName}`, err);
+    return createResponse(400, `Error updating ${tableName}`, err);
+  }
+};
+
+function createResponse(statusCode, message, data) {
+  return {
+    statusCode: statusCode,
+    body: JSON.stringify({message: message, data: data})
+  };
+}

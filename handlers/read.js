@@ -1,9 +1,9 @@
 'use strict';
-const { readItems } = require('../utils/dynamoHelper');
+const { readItems, readItem } = require('../utils/dynamoHelper');
 
 module.exports.get = async event => {
-  const { tableName } = JSON.parse(JSON.stringify(event.queryStringParameters));
-  const tableResponse = await readItems(tableName);
+  const { tableName, itemId } = JSON.parse(JSON.stringify(event.queryStringParameters));
+  const tableResponse = await itemId ? readItem(tableName, itemId) : readItems(tableName);
 
   return tableResponse;
 };

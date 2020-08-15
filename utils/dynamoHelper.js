@@ -9,7 +9,7 @@ const createResponse = require('./createResponse');
 
 module.exports = {
     createItem(tableName, itemData) {
-        var params = {
+        const params = {
           TableName: tableName,
           Item: assignId(itemData)
         }
@@ -24,7 +24,7 @@ module.exports = {
         }
     },
     readItems(tableName) {
-        var params = {
+        const params = {
           TableName: tableName
         }
       
@@ -37,8 +37,26 @@ module.exports = {
           return createResponse(400, `Error reading from ${tableName}`, err);
         }
     },
+    readItem(tableName, id) {
+        const params = {
+            TableName: tableName,
+            KeyConditionExpression: 'id = :id',
+            ExpressionAttributeValues: {
+                ':id': id
+            }
+        }
+      
+        try {
+          return docClient.query(params).promise().then((data) => {
+            return createResponse(200, `${id} Read successfully from ${tableName}`, data);
+          }).catch(err => createResponse(500, `Error reading ${id} from ${tableName}`, err));
+        } catch (err) {
+          console.error(`Error reading ${id} from ${tableName}`, err);
+          return createResponse(400, `Error reading ${id} from ${tableName}`, err);
+        }
+    },
     updateItem(tableName, itemData) {
-        var params = {
+        const params = {
           TableName: tableName,
           Item: itemData
         }
@@ -53,7 +71,7 @@ module.exports = {
         }
     },
     deleteItem(tableName, data) {
-        var params = {
+        const params = {
           TableName: tableName,
           Key: data
         }

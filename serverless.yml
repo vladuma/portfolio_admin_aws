@@ -52,6 +52,20 @@ functions:
           path: delete
           method: delete
           cors: true
+  listTables:
+    handler: handlers/list.get
+    events: 
+      - http: 
+          path: list
+          method: get
+          cors: true
+  describeTable:
+    handler: handlers/describe.get
+    events: 
+      - http: 
+          path: describe
+          method: get
+          cors: true
 
 resources:
   Resources:

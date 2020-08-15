@@ -3,6 +3,7 @@ const { uuid } = require('uuidv4');
 const AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 
+const dynamodb = new AWS.DynamoDB();
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const createResponse = require('./createResponse');
@@ -83,6 +84,30 @@ module.exports = {
         } catch (err) {
           console.error(`Error deleting ${tableName}`, err);
           return createResponse(400, `Error deleting ${tableName}`, err);
+        }
+    },
+    listTables() {
+        try {
+            return dynamodb.listTables().promise().then((data) => {
+                return createResponse(200, `Listing tables`, data);
+            }).catch(err => createResponse(500, `Error listing tables`, err));
+        } catch (err) {
+            console.error(`Error listing tables`, err);
+            return createResponse(400, `Error listing tables`, err);
+        }
+    },
+    describeTable(tableName) {
+        const params = {
+            TableName: tableName
+        }
+        
+        try {
+            return dynamodb.describeTable(params).promise().then((data) => {
+                return createResponse(200, `Describing table ${tableName}`, data);
+            }).catch(err => createResponse(500, `Error describing table ${tableName}`, err));
+        } catch (err) {
+            console.error(`Error describing table ${tableName}`, err);
+            return createResponse(400, `Error describing table ${tableName}`, err);
         }
     }
 }

@@ -11,18 +11,25 @@ This data is displayed in my portfolio/ online CV on [vladuma.github.io](https:/
 
 # Write to table
 Send POST request to /{stage}/write, with the following body:\
-{
-    "tableName": "valid table name",
-    "data": "stringified and valid data"
-}
+{\
+    "tableName": "valid table name",\
+    "data": "stringified and valid data"\
+}\
 
 # Read from table
 Send GET request to /{stage}/read, with a query parameter "tableName" containing a valid database name.
 
 # Update table
 Send PUT request to /{stage}/update, with the following body:\
-{
-    "tableName": "valid table name",
-    "data": "stringified and valid data"
+{\
+    "tableName": "valid table name",\
+    "data": "stringified and valid data"\
 }.\
 The data must have an existing id.
+
+# Delete table
+Send DELETE request to /{stage}/delete with the following body:\
+{\
+    "tableName": "valid table name",\
+    "data": "stringified key schema data, i.e. item ID and Name"\
+}.\

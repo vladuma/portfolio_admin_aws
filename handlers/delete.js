@@ -1,17 +1,9 @@
 'use strict';
+const { deleteItem } = require('../utils/dynamoHelper');
 
 module.exports.del = async event => {
-  const {dbName} = JSON.parse(JSON.stringify(event || event.body));
+  const {tableName, data} = JSON.parse(event.body);
+  const tableResponse = await deleteItem(tableName, JSON.parse(data));
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: `Deleted successfully: ${dbName}`,
-        input: event,
-      },
-      null,
-      2
-    ),
-  };
+  return tableResponse;
 };

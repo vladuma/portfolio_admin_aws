@@ -1,42 +1,9 @@
 'use strict';
-const { uuid } = require('uuidv4');
-const createResponse = require('../utils/createResponse');
-
-const AWS = require('aws-sdk');
-AWS.config.update({region: 'us-east-1'});
-
-const docClient = new AWS.DynamoDB.DocumentClient();
+const { createItem } = require('../utils/dynamoHelper');
 
 module.exports.post = async event => {
-  try {
-    const {tableName, data} = JSON.parse(event.body);
-    const tableResponse = await createItem(tableName, JSON.parse(data));
+  const {tableName, data} = JSON.parse(event.body);
+  const tableResponse = await createItem(tableName, JSON.parse(data));
 
-    return tableResponse;
-  } catch (err) {
-    console.error(`Error before writting to table`, err);
-    return createResponse(500, `Error before writting to table`, err)
-  }
+  return tableResponse;
 };
-
-
-function createItem(tableName, itemData){
-  var params = {
-    TableName: tableName,
-    Item: assignId(itemData)
-  }
-
-  try {
-    return docClient.put(params).promise().then(() => {
-      return createResponse(200, `Written successfully to ${tableName}`, params);
-    });
-  } catch (err) {
-    console.error(`Error writting to ${tableName}`, err);
-    return createResponse(400, `Error writting to ${tableName}`, err);
-  }
-};
-function assignId(data) {
-  data.id = uuid();
-
-  return data;
-}

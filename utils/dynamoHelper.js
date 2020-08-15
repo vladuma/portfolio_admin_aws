@@ -9,7 +9,6 @@ const createResponse = require('./createResponse');
 
 module.exports = {
     createItem(tableName, itemData) {
-        console.log(this);
         var params = {
           TableName: tableName,
           Item: assignId(itemData)

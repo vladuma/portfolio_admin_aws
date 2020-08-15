@@ -5,13 +5,14 @@ AWS.config.update({region: 'us-east-1'});
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-const createResponse = require('../createResponse');
+const createResponse = require('./createResponse');
 
 module.exports = {
-    createItem = (tableName, itemData) => {
+    createItem(tableName, itemData) {
+        console.log(this);
         var params = {
           TableName: tableName,
-          Item: this.assignId(itemData)
+          Item: assignId(itemData)
         }
       
         try {
@@ -23,12 +24,7 @@ module.exports = {
           return createResponse(400, `Error writting to ${tableName}`, err);
         }
     },
-    assignId = (data) => {
-        data.id = uuid();
-      
-        return data;
-    },
-    readItems = (tableName, itemData) => {
+    readItems(tableName) {
         var params = {
           TableName: tableName
         }
@@ -42,7 +38,7 @@ module.exports = {
           return createResponse(400, `Error reading from ${tableName}`, err);
         }
     },
-    updateItem = (tableName, itemData) => {
+    updateItem(tableName, itemData) {
         var params = {
           TableName: tableName,
           Item: itemData
@@ -57,7 +53,7 @@ module.exports = {
           return createResponse(400, `Error updating ${tableName}`, err);
         }
     },
-    deleteItem = (tableName, data) => {
+    deleteItem(tableName, data) {
         var params = {
           TableName: tableName,
           Key: data
@@ -72,4 +68,10 @@ module.exports = {
           return createResponse(400, `Error deleting ${tableName}`, err);
         }
     }
+}
+
+const assignId = (data) => {
+    data.id = uuid();
+  
+    return data;
 }
